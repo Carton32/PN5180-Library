@@ -66,11 +66,13 @@ void PN5180::begin() {
   pinMode(PN5180_NSS, OUTPUT);
   pinMode(PN5180_BUSY, INPUT);
   pinMode(PN5180_RST, OUTPUT);
+  pinMode(5, OUTPUT); // AUX_DWL_REQ pin
 
   digitalWrite(PN5180_NSS, HIGH); // disable
   digitalWrite(PN5180_RST, HIGH); // no reset
+  digitalWrite(5, LOW); // disable download mode
 
-  PN5180_SPI.begin();
+  PN5180_SPI.begin(10, 7, 8, -1); // sck, miso, mosi, ss
   PN5180DEBUG(F("SPI pinout: "));
   PN5180DEBUG(F("SS=")); PN5180DEBUG(SS);
   PN5180DEBUG(F(", MOSI=")); PN5180DEBUG(MOSI);
