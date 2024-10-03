@@ -70,7 +70,7 @@
  *
  */
 
-//#define WRITE_ENABLED 1
+// #define WRITE_ENABLED 1
 
 #include <PN5180.h>
 #include <PN5180ISO15693.h>
@@ -250,7 +250,7 @@ void loop() {
     Serial.println();
   }
 
-#ifdef WRITE_ENABLED
+#if WRITE_ENABLED == 1
   Serial.println(F("----------------------------------"));
   uint8_t *writeBuffer = malloc(blockSize);
   for (int i=0; i<blockSize; i++) {

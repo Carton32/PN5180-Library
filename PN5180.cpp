@@ -16,7 +16,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
 //
-//#define DEBUG 1
+#define DEBUG 0
 
 #include <Arduino.h>
 #include "PN5180.h"
@@ -95,7 +95,7 @@ void PN5180::end() {
 bool PN5180::writeRegister(uint8_t reg, uint32_t value) {
   uint8_t *p = (uint8_t*)&value;
 
-#ifdef DEBUG
+#if DEBUG == 1
   PN5180DEBUG(F("Write Register 0x"));
   PN5180DEBUG(formatHex(reg));
   PN5180DEBUG(F(", value (LSB first)=0x"));
@@ -127,7 +127,7 @@ bool PN5180::writeRegister(uint8_t reg, uint32_t value) {
 bool PN5180::writeRegisterWithOrMask(uint8_t reg, uint32_t mask) {
   uint8_t *p = (uint8_t*)&mask;
 
-#ifdef DEBUG
+#if DEBUG == 1
   PN5180DEBUG(F("Write Register 0x"));
   PN5180DEBUG(formatHex(reg));
   PN5180DEBUG(F(" with OR mask (LSB first)=0x"));
@@ -155,7 +155,7 @@ bool PN5180::writeRegisterWithOrMask(uint8_t reg, uint32_t mask) {
 bool PN5180::writeRegisterWithAndMask(uint8_t reg, uint32_t mask) {
   uint8_t *p = (uint8_t*)&mask;
 
-#ifdef DEBUG
+#if DEBUG == 1
   PN5180DEBUG(F("Write Register 0x"));
   PN5180DEBUG(formatHex(reg));
   PN5180DEBUG(F(" with AND mask (LSB first)=0x"));
@@ -234,7 +234,7 @@ bool PN5180::readEEprom(uint8_t addr, uint8_t *buffer, int len) {
 
   transceiveCommand(cmd, sizeof(cmd), buffer, len);
 
-#ifdef DEBUG
+#if DEBUG == 1
   PN5180DEBUG(F("EEPROM values: "));
   for (int i=0; i<len; i++) {
     PN5180DEBUG(formatHex(buffer[i]));
@@ -268,7 +268,7 @@ bool PN5180::sendData(const uint8_t *data, int len, uint8_t validBits) {
     return false;
   }
 
-#ifdef DEBUG
+#if DEBUG == 1
   PN5180DEBUG(F("Send data (len="));
   PN5180DEBUG(len);
   PN5180DEBUG(F("):"));
@@ -345,7 +345,7 @@ uint8_t * PN5180::readData(int len) {
   }
   transceiveCommand(cmd, sizeof(cmd), readBuffer, len);
 
-#ifdef DEBUG
+#if DEBUG == 1
   PN5180DEBUG(F("Data read: "));
   for (int i=0; i<len; i++) {
     PN5180DEBUG(formatHex(readBuffer[i]));
@@ -590,7 +590,7 @@ status register contain information on the exception.
  */
 bool PN5180::transceiveCommand(uint8_t *sendBuffer, size_t sendBufferLen, uint8_t *recvBuffer, size_t recvBufferLen) {
   PN5180_SPI.beginTransaction(SPI_SETTINGS);
-#ifdef DEBUG
+#if DEBUG == 1
   PN5180DEBUG(F("Sending SPI frame: '"));
   for (uint8_t i=0; i<sendBufferLen; i++) {
     if (i>0) PN5180DEBUG(" ");
@@ -672,7 +672,7 @@ bool PN5180::transceiveCommand(uint8_t *sendBuffer, size_t sendBufferLen, uint8_
 	};
   }; // wait until busy is low
 
-#ifdef DEBUG
+#if DEBUG == 1
   PN5180DEBUG(F("Received: "));
   for (uint8_t i=0; i<recvBufferLen; i++) {
     if (i > 0) PN5180DEBUG(" ");
@@ -736,7 +736,7 @@ bool PN5180::clearIRQStatus(uint32_t irqMask) {
 /*
  * Get TRANSCEIVE_STATE from RF_STATUS register
  */
-#ifdef DEBUG
+#if DEBUG == 1
 extern void showIRQStatus(uint32_t);
 #endif
 
@@ -745,7 +745,7 @@ PN5180TransceiveStat PN5180::getTransceiveState() {
 
   uint32_t rfStatus;
   if (!readRegister(RF_STATUS, &rfStatus)) {
-#ifdef DEBUG
+#if DEBUG == 1
     showIRQStatus(getIRQStatus());
 #endif
     PN5180DEBUG(F("ERROR reading RF_STATUS register.\n"));

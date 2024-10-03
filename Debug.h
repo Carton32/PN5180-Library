@@ -19,13 +19,13 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
-#ifdef DEBUG
+#if DEBUG == 1
 #define PN5180DEBUG(msg) Serial.print(msg)
 #else
 #define PN5180DEBUG(msg)
 #endif
 
-#ifdef DEBUG
+#if DEBUG == 1
 extern char * formatHex(const uint8_t val);
 extern char * formatHex(const uint16_t val);
 extern char * formatHex(const uint32_t val);

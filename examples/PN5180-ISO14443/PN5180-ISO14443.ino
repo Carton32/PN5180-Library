@@ -71,7 +71,7 @@
  *
  */
 
-//#define WRITE_ENABLED 1
+// #define WRITE_ENABLED 1
 
 #include <PN5180.h>
 #include <PN5180ISO14443.h>
